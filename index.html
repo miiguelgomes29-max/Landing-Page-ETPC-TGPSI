@@ -3,284 +3,243 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Curso TGPSI | ETPC</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>TGPSI | ETPC Alpha</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* Variáveis de Cores e Estilos Base */
         :root {
-            --primary: #2563eb;
-            --secondary: #0f172a;
-            --accent: #10b981;
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
-            --text-light: #94a3b8;
+            --bg: #090d16;
+            --surface: rgba(17, 24, 39, 0.7);
+            --border: rgba(255, 255, 255, 0.08);
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.4);
+            --accent: #34d399;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            overflow-x: hidden;
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0; padding: 0; overflow-x: hidden;
         }
 
-        /* Animações */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Esferas de Luz em Fundo (Ambiente Cyber) */
+        .glow-sphere {
+            position: absolute; width: 400px; height: 400px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            top: 20%; left: -10%; filter: blur(50px); pointer-events: none; z-index: 0;
+            animation: float 10s infinite alternate;
         }
+        .glow-sphere-2 {
+            position: absolute; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(52, 211, 153, 0.2) 0%, transparent 70%);
+            bottom: 10%; right: -5%; filter: blur(50px); pointer-events: none; z-index: 0;
+        }
+        @keyframes float { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
 
-        /* Menu de Navegação */
+        /* Classes de Animação de Entrada */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Menu Moderno (Glassmorphism) */
         nav {
-            background-color: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 5%;
-            box-sizing: border-box;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(9, 13, 22, 0.75); backdrop-filter: blur(12px);
+            position: fixed; width: 100%; top: 0; z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; box-sizing: border-box;
+            border-bottom: 1px solid var(--border);
         }
+        .logo { color: #white; font-size: 1.4rem; font-weight: 700; text-decoration: none; letter-spacing: -1px; }
+        .logo span { color: var(--primary); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 25px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary-glow); }
 
-        .logo {
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-decoration: none;
+        /* Hero */
+        .hero {
+            position: relative; height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 0 20px; z-index: 1;
+        }
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 5px; font-weight: 700; line-height: 1.1; }
+        .hero h1 span {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         
-        .logo span {
-            color: var(--primary);
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        /* Secção Hero */
-        .hero {
-            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(37, 99, 235, 0.8)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=80') center/cover;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 0 20px;
-            animation: fadeIn 1s ease-out;
-        }
-
-        .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .hero p {
-            font-size: clamp(1rem, 2vw, 1.2rem);
-            max-width: 700px;
-            margin-bottom: 30px;
-            color: #e2e8f0;
-        }
+        .typing-container { font-size: clamp(1.2rem, 3vw, 2rem); font-family: 'Fira Code', monospace; color: var(--accent); margin-bottom: 35px; min-height: 40px; }
+        .cursor { animation: blink 0.7s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         .btn {
-            background-color: var(--primary);
-            color: white;
-            padding: 15px 30px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            background: linear-gradient(135deg, var(--primary), #0284c7); color: white;
+            padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600;
+            transition: 0.3s; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
         }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px var(--primary-glow); }
 
-        .btn:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+        /* Secções */
+        section { padding: 100px 5%; position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 2.2rem; margin-bottom: 50px; font-weight: 700; text-align: center; }
+        .section-title span { color: var(--primary); }
+
+        /* Terminal Interativo */
+        .terminal-container {
+            background: #0b0f19; border: 1px solid var(--border); border-radius: 12px;
+            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-
-        /* Secções Gerais */
-        section {
-            padding: 80px 5%;
+        .terminal-header { background: #131926; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .terminal-dots { display: flex; gap: 8px; }
+        .terminal-btn-group { display: flex; gap: 10px; }
+        .term-btn {
+            background: #1e293b; border: 1px solid var(--border); color: var(--text-muted);
+            padding: 4px 12px; border-radius: 4px; font-family: 'Fira Code', monospace;
+            font-size: 0.8rem; cursor: pointer; transition: 0.2s;
         }
-
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            color: var(--secondary);
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 4px;
-            background-color: var(--primary);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
-        /* Grid de Disciplinas */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
+        .term-btn:hover, .term-btn.active { background: var(--primary); color: #000; font-weight: 600; }
+        .terminal-body { padding: 25px; font-family: 'Fira Code', monospace; min-height: 180px; line-height: 1.7; color: #cbd5e1; }
+        
+        /* Grid de Cards */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
         .card {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            border-bottom: 5px solid transparent;
+            background: var(--surface); backdrop-filter: blur(8px); padding: 40px 25px;
+            border-radius: 12px; border: 1px solid var(--border); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
-            border-bottom: 5px solid var(--primary);
+            transform: translateY(-5px); border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15);
         }
-
-        .card i {
-            font-size: 3rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
-
-        .card p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Secção Sobre */
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #475569;
-        }
+        .card i { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+        .card h3 { font-size: 1.3rem; margin-bottom: 12px; font-weight: 600; }
+        .card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin: 0; }
 
         /* Rodapé */
-        footer {
-            background-color: var(--secondary);
-            color: white;
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 40px;
-        }
+        footer { border-top: 1px solid var(--border); background: #090d16; text-align: center; padding: 30px; color: var(--text-muted); font-size: 0.9rem; }
+        footer i { color: #f43f5e; }
 
-        footer p {
-            margin: 0;
-            opacity: 0.8;
-        }
-        
-        footer i {
-            color: var(--accent);
-        }
-
-        /* Responsividade para telemóveis */
-        @media (max-width: 768px) {
-            .nav-links { display: none; /* Esconde o menu em ecrãs pequenos para simplificar */ }
-            .hero { padding-top: 80px; }
-        }
+        @media (max-width: 768px) { .nav-links { display: none; } }
     </style>
 </head>
 <body>
 
+    <div class="glow-sphere"></div>
+    <div class="glow-sphere-2"></div>
+
     <nav>
-        <a href="#" class="logo">ETPC<span>.TGPSI</span></a>
+        <a href="#" class="logo">ETPC<span>//</span>TGPSI</a>
         <div class="nav-links">
             <a href="#inicio">Início</a>
-            <a href="#sobre">O Curso</a>
-            <a href="#competencias">Competências</a>
+            <a href="#sistema">Consola</a>
+            <a href="#skills">Stack</a>
         </div>
     </nav>
 
     <section class="hero" id="inicio">
-        <h1>O Teu Futuro na Tecnologia</h1>
-        <p>Torna-te um Técnico de Gestão e Programação de Sistemas Informáticos na ETPC. Aprende a criar o software e as redes de amanhã.</p>
-        <a href="#sobre" class="btn">Explorar o Curso</a>
+        <h1>Constrói o Teu <span>Código</span></h1>
+        <div class="typing-container">
+            &gt; <span id="typed-text"></span><span class="cursor">_</span>
+        </div>
+        <a href="#sistema" class="btn">Executar Programa <i class="fa-solid fa-terminal" style="margin-left: 8px;"></i></a>
     </section>
 
-    <section id="sobre" style="background-color: white;">
-        <h2 class="section-title">Sobre o TGPSI</h2>
-        <div class="about-content">
-            <p>O curso de <strong>TGPSI</strong> é uma formação profissional de nível 4 que te prepara para os desafios do mercado digital. Durante 3 anos, vais adquirir dupla certificação (12.º ano + Certificado Profissional) num ambiente altamente prático.</p>
-            <p>Com forte ligação às empresas da região, terás a oportunidade de realizar a Formação em Contexto de Trabalho (Estágio) aplicando os teus conhecimentos em cenários reais.</p>
+    <section id="sistema" class="reveal">
+        <h2 class="section-title">Root<span>@</span>ETPC:~#</h2>
+        
+        <div class="terminal-container">
+            <div class="terminal-header">
+                <div class="terminal-dots">
+                    <div class="dot" style="width:12px;height:12px;border-radius:50%;background:#ff5f56"></div>
+                    <div class="dot" style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;margin-left:6px"></div>
+                    <div class="dot" style="width:12px;height:12px;border-radius:50%;background:#27c93f;margin-left:6px"></div>
+                </div>
+                <div class="terminal-btn-group">
+                    <button class="term-btn active" onclick="runCommand('sobre', this)">sobre.sh</button>
+                    <button class="term-btn" onclick="runCommand('saidas', this)">saidas.cfg</button>
+                    <button class="term-btn" onclick="runCommand('requisitos', this)">vagas.env</button>
+                </div>
+            </div>
+            <div class="terminal-body" id="terminal-content">
+                </div>
         </div>
     </section>
 
-    <section id="competencias">
-        <h2 class="section-title">O que vais aprender?</h2>
+    <section id="skills" class="reveal">
+        <h2 class="section-title">Core <span>Competências</span></h2>
         <div class="grid">
-            
             <div class="card">
-                <i class="fa-solid fa-laptop-code"></i>
-                <h3>Programação</h3>
-                <p>Desenvolve aplicações desktop e lógicas de programação utilizando linguagens modernas como C/C++, C# ou Java.</p>
+                <i class="fa-solid fa-code-branch"></i>
+                <h3>Algoritmia</h3>
+                <p>Desenvolvimento do raciocínio lógico estruturado e resolução de problemas complexos.</p>
             </div>
-
             <div class="card">
-                <i class="fa-solid fa-globe"></i>
-                <h3>Web Design & Dev</h3>
-                <p>Cria websites dinâmicos e landing pages (como esta!) utilizando HTML, CSS, JavaScript e PHP.</p>
+                <i class="fa-brands fa-react"></i>
+                <h3>Fullstack Dev</h3>
+                <p>Criação de ecossistemas completos, desde a interface visual ao controlo de servidores.</p>
             </div>
-
             <div class="card">
-                <i class="fa-solid fa-database"></i>
-                <h3>Bases de Dados</h3>
-                <p>Modela e gere grandes quantidades de informação utilizando sistemas como SQL Server ou MySQL.</p>
+                <i class="fa-solid fa-shield-halved"></i>
+                <h3>Cybersecurity</h3>
+                <p>Introdução à proteção de dados, segurança em redes e prevenção de vulnerabilidades.</p>
             </div>
-
             <div class="card">
-                <i class="fa-solid fa-network-wired"></i>
-                <h3>Redes Informáticas</h3>
-                <p>Instala, configura e gere equipamentos de rede, garantindo a comunicação e a segurança dos sistemas.</p>
+                <i class="fa-solid fa-cloud"></i>
+                <h3>Sistemas Cloud</h3>
+                <p>Configuração e alojamento moderno de bases de dados e apps no ecossistema global.</p>
             </div>
-
         </div>
     </section>
 
     <footer>
-        <p>Criado com <i class="fa-solid fa-heart"></i> por miiguelgomes29-max | &copy; 2026 ETPC</p>
+        <p>Desenvolvido com orgulho por miiguelgomes29-max | <i class="fa-solid fa-code"></i> ETPC 2026</p>
     </footer>
 
+    <script>
+        // Máquina de Escrever Eficiente
+        const frases = ["Compila as tuas ideias.", "Gere redes estruturadas.", "Domina o Desenvolvimento Web."];
+        let fIdx = 0, cIdx = 0, isErasing = false;
+        const target = document.getElementById("typed-text");
+
+        function typeEffect() {
+            const currentFrase = frases[fIdx];
+            if (!isErasing) {
+                target.textContent = currentFrase.substring(0, cIdx + 1);
+                cIdx++;
+                if (cIdx === currentFrase.length) { isErasing = true; setTimeout(typeEffect, 2500); return; }
+            } else {
+                target.textContent = currentFrase.substring(0, cIdx - 1);
+                cIdx--;
+                if (cIdx === 0) { isErasing = false; fIdx = (fIdx + 1) % frases.length; }
+            }
+            setTimeout(typeEffect, isErasing ? 40 : 80);
+        }
+        document.addEventListener("DOMContentLoaded", typeEffect);
+
+        // Sistema do Terminal Interativo
+        const comandos = {
+            sobre: `// Informações Gerais do Curso Profissional<br><span style="color:#38bdf8">O que é?</span> Curso de Nível 4 com equivalência ao 12º ano.<br><span style="color:#38bdf8">Foco Principal:</span> Automação, Lógica de Programação, Web Apps e Gestão de Sistemas.<br><span style="color:#34d399">Bónus:</span> Inclui Estágio Profissional em ambiente empresarial na zona de Cantanhede/Coimbra.`,
+            saidas: `// Saídas Profissionais Ativas<br># [01] Programador / Developer Júnior (Web, Mobile, Desktop)<br># [02] Técnico de Suporte Informático e Administração de Redes<br># [03] Gestor de Bases de Dados e Analista de Sistemas<br># [04] Acesso Direto ao Ensino Superior (Cursos de Engenharia Informática).`,
+            requisitos: `// Configurações de Inscrição<br>STATUS_VAGAS=<span style="color:#34d399">"Abertas"</span><br>ANO_LETIVO=<span style="color:#38bdf8">"2026/2027"</span><br>REQUISITO_BASE=<span style="color:#ef4444">"9º Ano Concluído"</span><br><br><span style="color:#34d399">&gt;&gt; Clica no botão acima para submeter a tua candidatura na ETPC!</span>`
+        };
+
+        function runCommand(key, element) {
+            document.querySelectorAll('.term-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('terminal-content').innerHTML = comandos[key];
+        }
+        // Executa o primeiro comando por defeito
+        document.getElementById('terminal-content').innerHTML = comandos.sobre;
+
+        // Reveal no Scroll
+        function reveal() {
+            const r = document.querySelectorAll(".reveal");
+            r.forEach(x => {
+                if (x.getBoundingClientRect().top < window.innerHeight - 100) x.classList.add("active");
+            });
+        }
+        window.addEventListener("scroll", reveal); reveal();
+    </script>
 </body>
 </html>
